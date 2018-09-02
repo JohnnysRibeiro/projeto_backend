@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:update, :show, :destroy]
 
+  api :POST, '/user', "Create User"
 	def create
 		@user = User.new(user_params)
 		if @user.save
@@ -10,6 +11,8 @@ class UsersController < ApplicationController
     end
 	end
 
+  api :GET, '/user/:id', "Show specific User"
+  param :id, :number
 	def show
 	  begin
         render json: @user, status: 200
@@ -18,6 +21,8 @@ class UsersController < ApplicationController
     end
 	end
 
+  api :PUT, '/user/:id', "Update specific User"
+  param :id, :number
   def update
     if @user.update(user_params)
         render json: @user, status: 200
@@ -26,6 +31,8 @@ class UsersController < ApplicationController
     end
   end
 
+  api :PUT, '/user/:id', "Delete specific User"
+  param :id, :number
   def destroy
     if @user.destroy
         render json: @user, status: 200
@@ -34,15 +41,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def index
-  	users = User.all
-  	render json: users, status: 200
-  end
-
 	private
 
   def user_params
-    # whitelist params
     params.permit(:name, :email, :gender, :age)
   end
 
