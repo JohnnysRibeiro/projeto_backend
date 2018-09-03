@@ -12,7 +12,8 @@ class UsersController < ApplicationController
 	end
 
   api :GET, '/user/:id', "Show specific User"
-  param :id, :number
+  error :code => 404, :desc => "Not Found"
+  param :id, :number, :required => true
 	def show
 	  begin
         render json: @user, status: 200
@@ -22,7 +23,8 @@ class UsersController < ApplicationController
 	end
 
   api :PUT, '/user/:id', "Update specific User"
-  param :id, :number
+  error :code => 404, :desc => "Not Found"
+  param :id, :number, :required => true
   def update
     if @user.update(user_params)
         render json: @user, status: 200
@@ -31,8 +33,9 @@ class UsersController < ApplicationController
     end
   end
 
-  api :PUT, '/user/:id', "Delete specific User"
-  param :id, :number
+  api :DELETE, '/user/:id', "Delete specific User"
+  error :code => 404, :desc => "Not Found"
+  param :id, :number, :required => true
   def destroy
     if @user.destroy
         render json: @user, status: 200
